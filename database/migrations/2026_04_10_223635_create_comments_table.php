@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->text('context');
+            $table->text('comments');
             $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();

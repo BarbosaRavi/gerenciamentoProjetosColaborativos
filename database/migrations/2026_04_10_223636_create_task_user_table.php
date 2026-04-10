@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('task_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
-            $table->foreignId('user_id')->constraied('users')->noActionOnDelete();
+            $table->foreignId('user_id')->constrained('users')->noActionOnDelete();
             $table->timestamps();
             $table->unique(['task_id', 'user_id']);
         });
