@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
-class PermissionsAndRolesSeeder extends Seeder
+class PermissionsAndRoles extends Seeder
 {
     public function run(): void
     {

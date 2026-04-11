@@ -157,17 +157,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 500);
         });
 
-        $exceptions->render(function (AuthorizationException $exception, Request $request) use ($shouldReturnJson) {
-            if (! $shouldReturnJson($request)) {
-                return null;
-            }
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Você não tem permissão para executar esta ação.',
-            ], 403);
-        });
-
         $exceptions->render(function (\Throwable $exception, Request $request) use ($shouldReturnJson) {
             if (! $shouldReturnJson($request)) {
                 return null;
