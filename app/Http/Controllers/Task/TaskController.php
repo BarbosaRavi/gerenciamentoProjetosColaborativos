@@ -16,14 +16,13 @@ use App\Http\Services\Task\TaskService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class TaskController extends Controller
-{
+class TaskController extends Controller {
+    
     public function __construct(
         private readonly TaskService $taskService,
     ) {}
 
-    public function index(ListProjectTaskRequest $request, int $projectId): JsonResponse
-    {
+    public function index(ListProjectTaskRequest $request, int $projectId): JsonResponse {
         $tasks = $this->taskService->listByProject(
             $projectId,
             $request->validated()['tag_ids'] ?? [],
@@ -36,8 +35,7 @@ class TaskController extends Controller
         );
     }
 
-    public function store(StoreTaskRequest $request, int $projectId): JsonResponse
-    {
+    public function store(StoreTaskRequest $request, int $projectId): JsonResponse {
         $task = $this->taskService->create(
             $projectId,
             $request->validated(),
@@ -51,8 +49,7 @@ class TaskController extends Controller
         );
     }
 
-    public function show(int $taskId): JsonResponse
-    {
+    public function show(int $taskId): JsonResponse {
         $task = $this->taskService->show($taskId, auth('api')->user());
 
         return ApiResponse::success(
@@ -61,8 +58,7 @@ class TaskController extends Controller
         );
     }
 
-    public function update(UpdateTaskRequest $request, int $taskId): JsonResponse
-    {
+    public function update(UpdateTaskRequest $request, int $taskId): JsonResponse {
         $task = $this->taskService->update(
             $taskId,
             $request->validated(),
@@ -75,8 +71,7 @@ class TaskController extends Controller
         );
     }
 
-    public function updateStatus(UpdateTaskStatusRequest $request, int $taskId): JsonResponse
-    {
+    public function updateStatus(UpdateTaskStatusRequest $request, int $taskId): JsonResponse {
         $task = $this->taskService->updateStatus(
             $taskId,
             $request->validated()['status'],
@@ -89,15 +84,13 @@ class TaskController extends Controller
         );
     }
 
-    public function destroy(int $taskId): JsonResponse
-    {
+    public function destroy(int $taskId): JsonResponse {
         $this->taskService->delete($taskId, auth('api')->user());
 
         return ApiResponse::success('Atividade excluída com sucesso.');
     }
 
-    public function assignMember(AssignTaskMemberRequest $request, int $taskId): JsonResponse
-    {
+    public function assignMember(AssignTaskMemberRequest $request, int $taskId): JsonResponse {
         $task = $this->taskService->assignMember(
             $taskId,
             $request->validated()['user_id'],
@@ -110,8 +103,7 @@ class TaskController extends Controller
         );
     }
 
-    public function removeMember(RemoveTaskMemberRequest $request, int $taskId): JsonResponse
-    {
+    public function removeMember(RemoveTaskMemberRequest $request, int $taskId): JsonResponse {
         $task = $this->taskService->removeMember(
             $taskId,
             $request->validated()['user_id'],
@@ -124,8 +116,7 @@ class TaskController extends Controller
         );
     }
 
-    public function attachTag(AttachTaskTagRequest $request, int $taskId): JsonResponse
-    {
+    public function attachTag(AttachTaskTagRequest $request, int $taskId): JsonResponse {
         $task = $this->taskService->attachTag(
             $taskId,
             $request->validated()['tag_id'],
@@ -138,8 +129,7 @@ class TaskController extends Controller
         );
     }
 
-    public function detachTag(DetachTaskTagRequest $request, int $taskId): JsonResponse
-    {
+    public function detachTag(DetachTaskTagRequest $request, int $taskId): JsonResponse {
         $task = $this->taskService->detachTag(
             $taskId,
             $request->validated()['tag_id'],

@@ -8,10 +8,9 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class TeamProjectService
-{
-    public function create(int $teamId, array $data, User $user): Project
-    {
+class TeamProjectService {
+
+    public function create(int $teamId, array $data, User $user): Project {
         return DB::transaction(function () use ($teamId, $data, $user): Project {
             $team = Team::with('members')->findOrFail($teamId);
 

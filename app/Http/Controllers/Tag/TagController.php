@@ -10,14 +10,13 @@ use App\Http\Services\Tag\TagService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class TagController extends Controller
-{
+class TagController extends Controller {
+
     public function __construct(
         private readonly TagService $tagService,
     ) {}
 
-    public function store(StoreTagRequest $request, int $projectId): JsonResponse
-    {
+    public function store(StoreTagRequest $request, int $projectId): JsonResponse {
         $tag = $this->tagService->create(
             $projectId,
             $request->validated(),
@@ -31,8 +30,7 @@ class TagController extends Controller
         );
     }
 
-    public function index(int $projectId): JsonResponse
-    {
+    public function index(int $projectId): JsonResponse {
         $tags = $this->tagService->listByProject($projectId, auth('api')->user());
 
         return ApiResponse::success(
@@ -41,8 +39,7 @@ class TagController extends Controller
         );
     }
 
-    public function update(UpdateTagRequest $request, int $tagId): JsonResponse
-    {
+    public function update(UpdateTagRequest $request, int $tagId): JsonResponse {
         $tag = $this->tagService->update(
             $tagId,
             $request->validated(),
@@ -55,8 +52,7 @@ class TagController extends Controller
         );
     }
 
-    public function destroy(int $tagId): JsonResponse
-    {
+    public function destroy(int $tagId): JsonResponse {
         $this->tagService->delete($tagId, auth('api')->user());
 
         return ApiResponse::success('Tag excluída com sucesso.');

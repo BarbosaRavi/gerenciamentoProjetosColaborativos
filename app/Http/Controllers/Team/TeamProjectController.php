@@ -9,14 +9,13 @@ use App\Http\Services\Team\TeamProjectService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class TeamProjectController extends Controller
-{
+class TeamProjectController extends Controller {
+
     public function __construct(
         private readonly TeamProjectService $teamProjectService,
     ) {}
 
-    public function store(CreateTeamProjectRequest $request, int $teamId): JsonResponse
-    {
+    public function store(CreateTeamProjectRequest $request, int $teamId): JsonResponse {
         $project = $this->teamProjectService->create($teamId, $request->validated(), auth('api')->user());
 
         return ApiResponse::success(

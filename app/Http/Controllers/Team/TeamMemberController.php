@@ -10,8 +10,8 @@ use App\Http\Resources\UserResource;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class TeamMemberController extends Controller
-{
+class TeamMemberController extends Controller {
+
     public function __construct(
         private readonly TeamMemberService $teamMemberService,
     ) {}
@@ -25,8 +25,7 @@ class TeamMemberController extends Controller
         );
     }
 
-    public function remove(RemoveTeamMemberRequest $request, int $teamId): JsonResponse
-    {
+    public function remove(RemoveTeamMemberRequest $request, int $teamId): JsonResponse {
         $this->teamMemberService->remove(
             $teamId,
             $request->validated()['user_id'],
@@ -36,8 +35,7 @@ class TeamMemberController extends Controller
         return ApiResponse::success('Membro removido com sucesso.');
     }
 
-    public function leave(LeaveTeamRequest $request, int $teamId): JsonResponse
-    {
+    public function leave(LeaveTeamRequest $request, int $teamId): JsonResponse {
         $this->teamMemberService->leave($teamId, auth('api')->user());
 
         return ApiResponse::success('Saída do time realizada com sucesso.');

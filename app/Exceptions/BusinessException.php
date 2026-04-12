@@ -5,8 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class BusinessException extends Exception
-{
+class BusinessException extends Exception {
+
     public function __construct(
         string $message,
         private readonly int $status = 422,
@@ -16,13 +16,11 @@ class BusinessException extends Exception
         parent::__construct($message, 0, $previous);
     }
 
-    public function status(): int
-    {
+    public function status(): int {
         return $this->status;
     }
 
-    public function errors(): array
-    {
+    public function errors(): array {
         return $this->errors;
     }
 }

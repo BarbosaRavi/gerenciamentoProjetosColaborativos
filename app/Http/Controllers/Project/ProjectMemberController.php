@@ -10,14 +10,13 @@ use App\Http\Services\Project\ProjectMembersService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class ProjectMemberController extends Controller
-{
+class ProjectMemberController extends Controller {
+    
     public function __construct(
         private readonly ProjectMembersService $projectMemberService,
     ) {}
 
-    public function index(int $projectId): JsonResponse
-    {
+    public function index(int $projectId): JsonResponse {
         $members = $this->projectMemberService->list($projectId, auth('api')->user());
 
         return ApiResponse::success(
@@ -26,8 +25,7 @@ class ProjectMemberController extends Controller
         );
     }
 
-    public function remove(RemoveProjectMemberRequest $request, int $projectId): JsonResponse
-    {
+    public function remove(RemoveProjectMemberRequest $request, int $projectId): JsonResponse {
         $this->projectMemberService->remove(
             $projectId,
             $request->validated()['user_id'],
@@ -37,8 +35,7 @@ class ProjectMemberController extends Controller
         return ApiResponse::success('Membro removido com sucesso.');
     }
 
-    public function leave(LeaveProjectRequest $request, int $projectId): JsonResponse
-    {
+    public function leave(LeaveProjectRequest $request, int $projectId): JsonResponse {
         $this->projectMemberService->leave($projectId, auth('api')->user());
 
         return ApiResponse::success('Saída do projeto realizada com sucesso.');

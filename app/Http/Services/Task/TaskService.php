@@ -10,8 +10,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 
-class TaskService
-{
+class TaskService {
+
     private const ALLOWED_STATUSES = [
         'pending',
         'in_progress',
@@ -24,8 +24,7 @@ class TaskService
 
         $this->ensureProjectMember($project, $user);
 
-        $query = Task::with(['project', 'creator', 'assignees', 'tags'])
-            ->where('project_id', $project->id);
+        $query = Task::with(['project', 'creator', 'assignees', 'tags'])->where('project_id', $project->id);
 
         if (! empty($tagIds)) {
             $query->whereHas('tags', function ($query) use ($tagIds) {

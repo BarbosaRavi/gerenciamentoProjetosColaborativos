@@ -9,14 +9,13 @@ use App\Http\Services\Team\TeamInviteService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class TeamInviteController extends Controller
-{
+class TeamInviteController extends Controller {
+
     public function __construct(
         private readonly TeamInviteService $teamInviteService,
     ) {}
 
-    public function store(SendTeamInviteRequest $request, int $teamId): JsonResponse
-    {
+    public function store(SendTeamInviteRequest $request, int $teamId): JsonResponse {
         $invitation = $this->teamInviteService->send($teamId, $request->validated(), auth('api')->user());
 
         return ApiResponse::success(
@@ -26,8 +25,7 @@ class TeamInviteController extends Controller
         );
     }
 
-    public function accept(string $token): JsonResponse
-    {
+    public function accept(string $token): JsonResponse {
         $invitation = $this->teamInviteService->accept($token, auth('api')->user());
 
         return ApiResponse::success(
@@ -36,8 +34,7 @@ class TeamInviteController extends Controller
         );
     }
 
-    public function decline(string $token): JsonResponse
-    {
+    public function decline(string $token): JsonResponse {
         $invitation = $this->teamInviteService->decline($token, auth('api')->user());
 
         return ApiResponse::success(

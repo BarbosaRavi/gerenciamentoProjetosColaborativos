@@ -5,10 +5,9 @@ namespace App\Support;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ApiResponse
-{
-    public static function success(string $message, mixed $data = null, int $status = 200): JsonResponse
-    {
+class ApiResponse {
+
+    public static function success(string $message, mixed $data = null, int $status = 200): JsonResponse {
         $response = [
             'success' => true,
             'message' => $message,
@@ -21,8 +20,7 @@ class ApiResponse
         return response()->json($response, $status);
     }
 
-    public static function error(string $message, mixed $errors = null, int $status = 400): JsonResponse
-    {
+    public static function error(string $message, mixed $errors = null, int $status = 400): JsonResponse {
         $response = [
             'success' => false,
             'message' => $message,
@@ -35,8 +33,7 @@ class ApiResponse
         return response()->json($response, $status);
     }
 
-    public static function token(string $message, string $token, mixed $user, int $expiresIn, int $status = 200): JsonResponse
-    {
+    public static function token(string $message, string $token, mixed $user, int $expiresIn, int $status = 200): JsonResponse {
         return response()->json([
             'success' => true,
             'message' => $message,
@@ -49,8 +46,7 @@ class ApiResponse
         ], $status);
     }
 
-    public static function paginated(string $message, LengthAwarePaginator $paginator, string $resourceClass): JsonResponse
-    {
+    public static function paginated(string $message, LengthAwarePaginator $paginator, string $resourceClass): JsonResponse {
         return response()->json([
             'success' => true,
             'message' => $message,

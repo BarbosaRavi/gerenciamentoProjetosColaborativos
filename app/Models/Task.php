@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Task extends Model
-{
+class Task extends Model {
+
     use HasFactory;
 
     protected $fillable = [
@@ -36,8 +36,7 @@ class Task extends Model
     }
 
     public function assignees(): BelongsToMany {
-        return $this->belongsToMany(User::class, 'task_user')
-            ->withTimestamps();
+        return $this->belongsToMany(User::class, 'task_user')->withTimestamps();
     }
 
     public function comments(): HasMany {
@@ -45,7 +44,6 @@ class Task extends Model
     }
 
     public function tags(): BelongsToMany {
-        return $this->belongsToMany(Tag::class, 'tag_task')
-            ->withTimestamps();
+        return $this->belongsToMany(Tag::class, 'tag_task')->withTimestamps();
     }
 }

@@ -10,14 +10,13 @@ use App\Http\Services\Team\TeamService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class TeamController extends Controller
-{
+class TeamController extends Controller {
+    
     public function __construct(
         private readonly TeamService $teamService,
     ) {}
 
-    public function store(StoreTeamRequest $request): JsonResponse
-    {
+    public function store(StoreTeamRequest $request): JsonResponse {
         $team = $this->teamService->create($request->validated(), auth('api')->user());
 
         return ApiResponse::success(
@@ -27,8 +26,7 @@ class TeamController extends Controller
         );
     }
 
-    public function show(int $teamId): JsonResponse
-    {
+    public function show(int $teamId): JsonResponse {
         $team = $this->teamService->show($teamId);
 
         return ApiResponse::success(
@@ -37,8 +35,7 @@ class TeamController extends Controller
         );
     }
 
-    public function update(UpdateTeamRequest $request, int $teamId): JsonResponse
-    {
+    public function update(UpdateTeamRequest $request, int $teamId): JsonResponse {
         $team = $this->teamService->update($teamId, $request->validated(), auth('api')->user());
 
         return ApiResponse::success(
@@ -47,8 +44,7 @@ class TeamController extends Controller
         );
     }
 
-    public function destroy(int $teamId): JsonResponse
-    {
+    public function destroy(int $teamId): JsonResponse {
         $this->teamService->delete($teamId, auth('api')->user());
 
         return ApiResponse::success('Time excluído com sucesso.');

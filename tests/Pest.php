@@ -7,8 +7,7 @@ use Tests\TestCase;
 
 uses(TestCase::class)->in('Feature');
 
-function createProjectWithOwner(User $owner, string $name = 'Projeto Base'): Project
-{
+function createProjectWithOwner(User $owner, string $name = 'Projeto Base'): Project {
     $project = Project::create([
         'name' => $name,
         'owner_id' => $owner->id,

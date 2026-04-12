@@ -9,10 +9,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class CommentService
-{
-    public function create(int $taskId, array $data, User $user): Comment
-    {
+class CommentService {
+
+    public function create(int $taskId, array $data, User $user): Comment {
         return DB::transaction(function () use ($taskId, $data, $user): Comment {
             $task = Task::with('project.members')->findOrFail($taskId);
 
@@ -37,21 +36,15 @@ class CommentService
         });
     }
 
-    public function listByTask(int $taskId, User $user): Collection
-    {
+    public function listByTask(int $taskId, User $user): Collection {
         $task = Task::with('project.members')->findOrFail($taskId);
 
         $this->ensureProjectMember($task, $user);
 
-        return Comment::with(['author', 'replies.author'])
-            ->where('task_id', $task->id)
-            ->whereNull('parent_id')
-            ->orderBy('created_at')
-            ->get();
+        return Comment::with(['author', 'replies.author'])->where('task_id', $task->id)->whereNull('parent_id')->orderBy('created_at')->get();
     }
 
-    public function update(int $commentId, array $data, User $user): Comment
-    {
+    public function update(int $commentId, array $data, User $user): Comment {
         $comment = Comment::with('task.project.members')->findOrFail($commentId);
 
         $this->ensureProjectMember($comment->task, $user);
@@ -64,8 +57,7 @@ class CommentService
         return $comment->load(['author', 'replies.author']);
     }
 
-    public function delete(int $commentId, User $user): void
-    {
+    public function delete(int $commentId, User $user): void {
         DB::transaction(function () use ($commentId, $user): void {
             $comment = Comment::with(['task.project.members', 'replies'])->findOrFail($commentId);
 
@@ -77,19 +69,15 @@ class CommentService
         });
     }
 
-    private function ensureProjectMember(Task $task, User $user): void
-    {
-        $isMember = $task->project->members()
-            ->where('users.id', $user->id)
-            ->exists();
+    private function ensureProjectMember(Task $task, User $user): void {
+        $isMember = $task->project->members()->where('users.id', $user->id)->exists();
 
         if (! $isMember) {
             throw new BusinessException('Apenas membros do projeto podem realizar esta ação.', 403);
         }
     }
 
-    private function ensureAuthor(Comment $comment, User $user): void
-    {
+    private function ensureAuthor(Comment $comment, User $user): void {
         if ((int) $comment->user_id !== (int) $user->id) {
             throw new BusinessException('Apenas o autor do comentário pode realizar esta ação.', 403);
         }

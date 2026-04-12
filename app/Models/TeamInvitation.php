@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TeamInvitation extends Model
-{
+class TeamInvitation extends Model {
+    
     use HasFactory;
 
     protected $fillable = [

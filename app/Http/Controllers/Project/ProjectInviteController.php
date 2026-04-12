@@ -9,8 +9,8 @@ use App\Http\Services\Project\ProjectInviteService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class ProjectInviteController extends Controller
-{
+class ProjectInviteController extends Controller {
+    
     public function __construct(
         private readonly ProjectInviteService $projectInviteService,
     ) {}
@@ -25,8 +25,7 @@ class ProjectInviteController extends Controller
         );
     }
 
-    public function accept(string $token): JsonResponse
-    {
+    public function accept(string $token): JsonResponse {
         $invitation = $this->projectInviteService->accept($token, auth('api')->user());
 
         return ApiResponse::success(
@@ -35,8 +34,7 @@ class ProjectInviteController extends Controller
         );
     }
 
-    public function decline(string $token): JsonResponse
-    {
+    public function decline(string $token): JsonResponse {
         $invitation = $this->projectInviteService->decline($token, auth('api')->user());
 
         return ApiResponse::success(

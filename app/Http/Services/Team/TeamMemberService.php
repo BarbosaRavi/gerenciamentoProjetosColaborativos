@@ -7,8 +7,8 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class TeamMemberService
-{
+class TeamMemberService {
+    
     public function list(int $teamId, User $authUser): Collection {
         $team = Team::with('members')->findOrFail($teamId);
 
