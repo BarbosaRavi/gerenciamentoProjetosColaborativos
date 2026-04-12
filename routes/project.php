@@ -15,6 +15,7 @@ Route::middleware('auth:api')->prefix('projects')->group(function (): void {
     Route::post('/invites/{token}/accept', [ProjectInviteController::class, 'accept']);
     Route::post('/invites/{token}/decline', [ProjectInviteController::class, 'decline']);
 
+    Route::get('/{projectId}/members', [ProjectMemberController::class, 'index']);
     Route::delete('/{projectId}/members', [ProjectMemberController::class, 'remove']);
     Route::post('/{projectId}/leave', [ProjectMemberController::class, 'leave']);
 });

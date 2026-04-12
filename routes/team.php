@@ -16,6 +16,7 @@ Route::middleware('auth:api')->prefix('teams')->group(function (): void {
     Route::post('/invites/{token}/accept', [TeamInviteController::class, 'accept']);
     Route::post('/invites/{token}/decline', [TeamInviteController::class, 'decline']);
 
+    Route::get('/{teamId}/members', [TeamMemberController::class, 'index']);
     Route::delete('/{teamId}/members', [TeamMemberController::class, 'remove']);
     Route::post('/{teamId}/leave', [TeamMemberController::class, 'leave']);
 

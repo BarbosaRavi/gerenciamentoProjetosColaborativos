@@ -17,6 +17,7 @@ class UpdateTaskRequest extends FormRequest
             'title' => ['sometimes', 'string', 'min:3', 'max:100'],
             'description' => ['sometimes', 'nullable', 'string', 'max:1000'],
             'status' => ['sometimes', 'in:pending,in_progress,on_hold,completed'],
+            'due_date' => ['sometimes', 'nullable', 'date'],
         ];
     }
 }

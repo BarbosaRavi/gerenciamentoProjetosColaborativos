@@ -5,9 +5,22 @@ namespace App\Http\Services\Project;
 use App\Exceptions\BusinessException;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
-class ProjectMembersService
-{
+class ProjectMembersService {
+    
+    public function list(int $projectId, User $authUser): Collection {
+        $project = Project::with('members')->findOrFail($projectId);
+
+        $isMember = $project->members()->where('users.id', $authUser->id)->exists();
+
+        if (! $isMember) {
+            throw new BusinessException('Apenas membros do projeto podem visualizar os membros.', 403);
+        }
+
+        return $project->members;
+    }
+
     public function remove(int $projectId, int $userId, User $authUser): void {
         $project = Project::findOrFail($projectId);
 

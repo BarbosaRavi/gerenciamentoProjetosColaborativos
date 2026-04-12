@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
 
 class TaskService
 {
@@ -17,6 +18,23 @@ class TaskService
         'on_hold',
         'completed',
     ];
+
+    public function listByProject(int $projectId, array $tagIds, User $user): Collection {
+        $project = Project::with('members')->findOrFail($projectId);
+
+        $this->ensureProjectMember($project, $user);
+
+        $query = Task::with(['project', 'creator', 'assignees', 'tags'])
+            ->where('project_id', $project->id);
+
+        if (! empty($tagIds)) {
+            $query->whereHas('tags', function ($query) use ($tagIds) {
+                $query->whereIn('tags.id', $tagIds);
+            });
+        }
+
+        return $query->get();
+    }
 
     public function create(int $projectId, array $data, User $user): Task {
         return DB::transaction(function () use ($projectId, $data, $user): Task {
@@ -30,6 +48,7 @@ class TaskService
                 'project_id' => $project->id,
                 'created_by' => $user->id,
                 'status' => $data['status'] ?? 'pending',
+                'due_date' => $data['due_date'] ?? null,
             ]);
 
             return $task->load(['project', 'creator', 'assignees', 'tags']);
@@ -57,6 +76,7 @@ class TaskService
             'title' => $data['title'] ?? $task->title,
             'description' => $data['description'] ?? $task->description,
             'status' => $data['status'] ?? $task->status,
+            'due_date' => array_key_exists('due_date', $data) ? $data['due_date'] : $task->due_date,
         ]);
 
         return $task->load(['project', 'creator', 'assignees', 'tags']);

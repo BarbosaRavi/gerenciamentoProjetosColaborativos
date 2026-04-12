@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Team\LeaveTeamRequest;
 use App\Http\Requests\Team\RemoveTeamMemberRequest;
 use App\Http\Services\Team\TeamMemberService;
+use App\Http\Resources\UserResource;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
@@ -14,6 +15,15 @@ class TeamMemberController extends Controller
     public function __construct(
         private readonly TeamMemberService $teamMemberService,
     ) {}
+
+    public function index(int $teamId): JsonResponse {
+        $members = $this->teamMemberService->list($teamId, auth('api')->user());
+
+        return ApiResponse::success(
+            'Membros do time encontrados com sucesso.',
+            UserResource::collection($members),
+        );
+    }
 
     public function remove(RemoveTeamMemberRequest $request, int $teamId): JsonResponse
     {

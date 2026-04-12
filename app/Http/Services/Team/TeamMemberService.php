@@ -5,9 +5,22 @@ namespace App\Http\Services\Team;
 use App\Exceptions\BusinessException;
 use App\Models\Team;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class TeamMemberService
 {
+    public function list(int $teamId, User $authUser): Collection {
+        $team = Team::with('members')->findOrFail($teamId);
+
+        $isMember = $team->members()->where('users.id', $authUser->id)->exists();
+
+        if (! $isMember) {
+            throw new BusinessException('Apenas membros do time podem visualizar os membros.', 403);
+        }
+
+        return $team->members;
+    }
+
     public function remove(int $teamId, int $userId, User $authUser): void {
         $team = Team::findOrFail($teamId);
 

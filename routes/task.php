@@ -4,6 +4,7 @@ use App\Http\Controllers\Task\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function (): void {
+    Route::get('/projects/{projectId}/tasks', [TaskController::class, 'index']);
     Route::post('/projects/{projectId}/tasks', [TaskController::class, 'store']);
 
     Route::prefix('tasks')->group(function (): void {

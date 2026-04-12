@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Project\ListProjectTaskRequest;
 use App\Http\Requests\Task\AssignTaskMemberRequest;
 use App\Http\Requests\Task\AttachTaskTagRequest;
 use App\Http\Requests\Task\DetachTaskTagRequest;
@@ -20,6 +21,20 @@ class TaskController extends Controller
     public function __construct(
         private readonly TaskService $taskService,
     ) {}
+
+    public function index(ListProjectTaskRequest $request, int $projectId): JsonResponse
+    {
+        $tasks = $this->taskService->listByProject(
+            $projectId,
+            $request->validated()['tag_ids'] ?? [],
+            auth('api')->user(),
+        );
+
+        return ApiResponse::success(
+            'Atividades encontradas com sucesso.',
+            TaskResource::collection($tasks),
+        );
+    }
 
     public function store(StoreTaskRequest $request, int $projectId): JsonResponse
     {

@@ -18,7 +18,14 @@ class Task extends Model
         'project_id',
         'created_by',
         'status',
+        'due_date',
     ];
+
+    protected function casts(): array {
+        return [
+            'due_date' => 'date',
+        ];
+    }
 
     public function project(): BelongsTo {
         return $this->belongsTo(Project::class);
